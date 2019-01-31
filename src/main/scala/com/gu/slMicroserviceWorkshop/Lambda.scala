@@ -1,4 +1,4 @@
-package com.gu.sl-microservice-workshop
+package com.gu.slMicroserviceWorkshop
 
 object Lambda {
 
