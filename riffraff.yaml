@@ -1,0 +1,31 @@
+stacks: [playground]
+regions: [eu-west-1]
+templates:
+  sl-microservice-workshop:
+    type: aws-lambda
+    app: sl-microservice-workshop
+    contentDirectory: sl-microservice-workshop
+    parameters:
+      bucket: gu-sl-microservice-workshop-dist
+      functionNames: [sl-microservice-workshop-]
+      fileName:  sl-microservice-workshop.zip
+      prefixStack: false
+
+deployments:
+  sl-microservice-workshop-upload:
+    template: sl-microservice-workshop
+    actions: [uploadLambda]
+
+sl-microservice-workshop-cfn:
+  type: cloud-formation
+  app: sl-microservice-workshop
+  dependencies: [sl-microservice-workshop-upload]
+  parameters:
+    prependStackToCloudFormationStackName: false
+    cloudFormationStackName: sl-microservice-workshop
+    templatePath: cfn.yaml
+
+sl-microservice-workshop-lambda-update:
+  template: sl-microservice-workshop
+  actions: [updateLambda]
+  dependencies: [sl-microservice-workshop-cfn]
